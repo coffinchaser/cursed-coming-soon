@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Something is coming... | EZEOS</title>
+  <meta name="description" content="Something is coming. I can't say more at this time.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background-color: #000000;
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .fortune-slip {
+      background-color: #ffffff;
+      padding: 24px;
+      max-width: 500px;
+      box-shadow: 0 0 60px rgba(196, 30, 30, 0.15);
+      opacity: 0;
+      transform: scale(0.95);
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .fortune-border {
+      border: 3px solid #c41e1e;
+      padding: 24px 32px;
+    }
+
+    .fortune-text {
+      color: #c41e1e;
+      font-style: italic;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      line-height: 1.6;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+
+    .smiley {
+      display: inline-block;
+      font-size: 1.5em;
+      vertical-align: middle;
+      position: relative;
+    }
+
+    .smiley.glitch {
+      animation: glitch 0.15s steps(2) forwards;
+    }
+
+    @keyframes glitch {
+      0% { opacity: 0.1; transform: translateX(3px); }
+      25% { opacity: 0.8; transform: translateX(-2px) skewX(10deg); text-shadow: 2px 0 #00ffff, -2px 0 #ff0066; }
+      50% { opacity: 0; transform: scaleX(0.5); }
+      75% { opacity: 0.7; transform: skewX(-15deg) translateX(-3px); text-shadow: 2px 0 #00ffff, -2px 0 #ff0066; }
+      100% { opacity: 1; transform: none; text-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="fortune-slip">
+    <div class="fortune-border">
+      <p class="fortune-text">
+        <span class="smiley" id="left-smiley">☻</span>
+        Something is coming.
+        <br>
+        I can't say more at this time.
+        <span class="smiley" id="right-smiley">☻</span>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const glitchEffects = [
+      { opacity: '0.1', transform: 'translateX(3px)' },
+      { opacity: '0', transform: 'translateX(-2px) skewX(10deg)', textShadow: '2px 0 #00ffff, -2px 0 #ff0066' },
+      { opacity: '0.8', transform: 'translateY(-2px) scaleY(1.3)' },
+      { opacity: '0.5', transform: 'translateX(1px) translateY(1px)' },
+      { opacity: '0', transform: 'scaleX(0.5)' },
+      { opacity: '0.7', transform: 'skewX(-15deg) translateX(-3px)', textShadow: '2px 0 #00ffff, -2px 0 #ff0066' },
+    ];
+
+    function triggerGlitch(element) {
+      const burstCount = 2 + Math.floor(Math.random() * 4);
+      let delay = 0;
+
+      for (let i = 0; i < burstCount; i++) {
+        setTimeout(() => {
+          const effect = glitchEffects[Math.floor(Math.random() * glitchEffects.length)];
+          element.style.opacity = effect.opacity;
+          element.style.transform = effect.transform;
+          element.style.textShadow = effect.textShadow || 'none';
+        }, delay);
+
+        delay += 50 + Math.random() * 80;
+
+        setTimeout(() => {
+          element.style.opacity = '1';
+          element.style.transform = 'none';
+          element.style.textShadow = 'none';
+        }, delay);
+
+        delay += 30 + Math.random() * 50;
+      }
+    }
+
+    const leftSmiley = document.getElementById('left-smiley');
+    const rightSmiley = document.getElementById('right-smiley');
+
+    setInterval(() => {
+      if (Math.random() > 0.6) {
+        triggerGlitch(leftSmiley);
+      }
+    }, 1200 + Math.random() * 800);
+
+    setInterval(() => {
+      if (Math.random() > 0.6) {
+        triggerGlitch(rightSmiley);
+      }
+    }, 1400 + Math.random() * 800);
+  </script>
+</body>
+</html>
